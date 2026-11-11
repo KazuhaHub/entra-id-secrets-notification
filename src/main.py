@@ -40,7 +40,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Application version
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 
 class ApplicationContainer:
@@ -59,6 +59,7 @@ class ApplicationContainer:
         return EntraIdCredentialRepository(
             self._settings.graph_config,
             monitor_service_principals=self._settings.monitor_service_principals,
+            excluded_application_ids=self._settings.excluded_application_ids,
         )
 
     def create_notification_senders(self) -> list[NotificationSender]:

@@ -5,6 +5,21 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-11-11
+
+### Added
+- `EXCLUDED_APPLICATION_IDS` setting: a comma-separated list of application
+  (client) IDs or service principal object IDs whose credentials are never
+  monitored, for platform-managed apps such as P2P Server.
+
+### Fixed
+- A certificate that Graph returns in both `keyCredentials` and
+  `passwordCredentials` (same `keyId`) is now reported once instead of twice.
+- An expired credential is no longer reported when a newer, still-valid
+  credential of the same family (same owner and type, display name ignoring a
+  trailing `[tag]` such as `[2025]`) exists. This stops daily false alerts for
+  credentials rotated by the platform.
+
 ## [1.1.0] - 2026-07-07
 
 ### Added

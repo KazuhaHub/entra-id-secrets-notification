@@ -1,6 +1,6 @@
 [project]
 name = "entra-id-secrets-notification"
-version = "1.1.0"
+version = "1.2.0"
 description = "Monitor Entra ID application secrets and certificates for expiration"
 readme = "README.md"
 license = { text = "MIT" }
