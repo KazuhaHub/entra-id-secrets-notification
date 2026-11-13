@@ -1,12 +1,28 @@
+# Zero-clone deploy:
+#   mkdir -p /opt/entra-id-secrets-notification && cd /opt/entra-id-secrets-notification
+#   curl -O https://raw.githubusercontent.com/KazuhaHub/entra-id-secrets-notification/main/docker-compose.yml
+#   curl -o .env https://raw.githubusercontent.com/KazuhaHub/entra-id-secrets-notification/main/.env.example
+#   # edit .env, then:
+#   docker compose up -d
+#
+# To update: `docker compose up -d` re-pulls the chosen tag (pull_policy: always).
+
 services:
   entra-id-secrets-notification:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production
-    image: entra-id-secrets-notification:latest
+    # Image channels:
+    #   :latest  -> newest release (the file's default)
+    #   :1.2.0   -> pin an exact version
+    # Images are built and published by the Release workflow in CI.
+    image: ghcr.io/kazuhahub/entra-id-secrets-notification:latest
     container_name: entra-id-secrets-notification
     restart: unless-stopped
+    pull_policy: always
+
+    # --- Building from source (uncomment to override the GHCR image) -----
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   target: production
 
     # Environment variables - use .env file
     env_file:
@@ -27,6 +43,9 @@ services:
       RUN_MODE: ${RUN_MODE:-scheduled}
       # Cron schedule (default: daily at 8 AM UTC)
       CRON_SCHEDULE: ${CRON_SCHEDULE:-0 8 * * *}
+
+      # Application (client) IDs or service principal object IDs to skip
+      EXCLUDED_APPLICATION_IDS: ${EXCLUDED_APPLICATION_IDS:-}
 
       # Logging
       LOG_LEVEL: ${LOG_LEVEL:-INFO}

@@ -87,19 +87,22 @@ src/
 
 ## Quick Start
 
-### 1. Clone and Configure
+### 1. Download and Configure
+
+No clone needed: the image is built by CI and published to
+`ghcr.io/kazuhahub/entra-id-secrets-notification`.
 
 ```bash
-git clone <repository-url>
-cd entra-id-secrets-notification
-cp .env.example .env
+mkdir -p /opt/entra-id-secrets-notification && cd /opt/entra-id-secrets-notification
+curl -O https://raw.githubusercontent.com/KazuhaHub/entra-id-secrets-notification/main/docker-compose.yml
+curl -o .env https://raw.githubusercontent.com/KazuhaHub/entra-id-secrets-notification/main/.env.example
 # Edit .env with your Azure credentials and notification settings
 ```
 
 ### 2. Run with Docker Compose
 
 ```bash
-# Build and run
+# Pull and run (also how you update: pull_policy is "always")
 docker compose up -d
 
 # View logs
@@ -108,6 +111,9 @@ docker compose logs -f
 # Stop
 docker compose down
 ```
+
+To build from source instead, clone the repository and uncomment the
+`build:` block in `docker-compose.yml`.
 
 ### 3. Run Once (Manual Check)
 
